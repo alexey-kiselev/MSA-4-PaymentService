@@ -1,0 +1,217 @@
+' BPMN stdlib-style include for PlantUML.
+' Focused on a lightweight, macro-based notation with role zones.
+
+allowmixing
+hide stereotype
+skinparam shadowing false
+skinparam defaultTextAlignment center
+skinparam ArrowColor #475569
+skinparam ArrowFontColor #334155
+skinparam ArrowThickness 1
+skinparam ranksep 20
+skinparam nodesep 10
+top to bottom direction
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam packageBorderColor #64748b
+skinparam packageBackgroundColor #f8fafc
+skinparam rectangleBorderColor #94a3b8
+skinparam rectangleBackgroundColor #ffffff
+skinparam diamondBorderColor #c2410c
+skinparam diamondBackgroundColor #fff7ed
+skinparam circleBorderColor #0f172a
+skinparam circleBackgroundColor #fff7cc
+skinparam noteBorderColor #94a3b8
+skinparam noteBackgroundColor #f8fafc
+
+!unquoted procedure BPMN_TITLE($title)
+title $title
+!endprocedure
+
+!unquoted procedure BPMN_NEWPAGE($title="")
+newpage
+!if ($title != "")
+title $title
+!endif
+!endprocedure
+
+!unquoted procedure BPMN_SET_TASK_COLORS($bg="", $border="")
+' Reserved for future compatibility.
+!endprocedure
+
+!unquoted procedure BPMN_SET_POOL_COLORS($bg="", $border="")
+' Reserved for future compatibility.
+!endprocedure
+
+!unquoted procedure StartEvent($alias, $label="Start", $descr="", $tags="", $link="")
+circle "$label" as $alias
+!endprocedure
+
+!unquoted procedure IntermediateEvent($alias, $label, $descr="", $tags="", $link="")
+circle "$label" as $alias
+!endprocedure
+
+!unquoted procedure BoundaryEvent($alias, $label, $descr="", $tags="", $link="")
+circle "$label" as $alias
+!endprocedure
+
+!unquoted procedure EndEvent($alias, $label="End", $descr="", $tags="", $link="")
+circle "$label" as $alias
+!endprocedure
+
+!unquoted procedure Task($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label" as $alias
+!endprocedure
+
+!unquoted procedure UserTask($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label\n[User]" as $alias #eef4ff
+!endprocedure
+
+!unquoted procedure ServiceTask($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label\n[Service]" as $alias #eefbf4
+!endprocedure
+
+!unquoted procedure ManualTask($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label\n[Manual]" as $alias #fff8e8
+!endprocedure
+
+!unquoted procedure ScriptTask($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label\n[Script]" as $alias #f5f3ff
+!endprocedure
+
+!unquoted procedure BusinessRuleTask($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label\n[Business Rule]" as $alias #fff7ed
+!endprocedure
+
+!unquoted procedure SubProcess($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label\n[Subprocess]" as $alias #eef2ff
+!endprocedure
+
+!unquoted procedure CallActivity($alias, $label, $descr="", $tags="", $link="")
+rectangle "$label\n[Call Activity]" as $alias #eff6ff
+!endprocedure
+
+!unquoted procedure ExclusiveGateway($alias, $label="XOR", $descr="", $tags="", $link="")
+diamond "$label" as $alias
+!endprocedure
+
+!unquoted procedure ParallelGateway($alias, $label="+", $descr="", $tags="", $link="")
+diamond "$label" as $alias
+!endprocedure
+
+!unquoted procedure InclusiveGateway($alias, $label="O", $descr="", $tags="", $link="")
+diamond "$label" as $alias
+!endprocedure
+
+!unquoted procedure EventGateway($alias, $label="Event", $descr="", $tags="", $link="")
+diamond "$label" as $alias #f5f3ff
+!endprocedure
+
+!unquoted procedure Pool($alias, $label, $tags="", $link="", $descr="")
+package "$label" #f8fafc {
+!endprocedure
+
+!unquoted procedure Lane($alias, $label, $tags="", $link="", $descr="")
+frame "$label" #ffffff {
+!endprocedure
+
+!unquoted procedure EndPool()
+}
+!endprocedure
+
+!unquoted procedure EndLane()
+}
+!endprocedure
+
+!unquoted procedure Flow($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from --> $to
+!else
+$from --> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure Flow_R($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from -right-> $to
+!else
+$from -right-> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure Flow_L($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from -left-> $to
+!else
+$from -left-> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure Flow_U($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from -up-> $to
+!else
+$from -up-> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure Flow_D($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from -down-> $to
+!else
+$from -down-> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure MessageFlow($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from ..> $to
+!else
+$from ..> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure MessageFlow_R($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from ..right> $to
+!else
+$from ..right> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure MessageFlow_L($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from ..left> $to
+!else
+$from ..left> $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure Association($from, $to, $label="", $techn="", $tags="", $link="")
+!if ($label == "")
+$from .. $to
+!else
+$from .. $to : $label
+!endif
+!endprocedure
+
+!unquoted procedure LaneAlign($upper, $lower)
+$upper -[hidden]down- $lower
+!endprocedure
+
+!unquoted procedure NoteFor($alias, $text)
+note right of $alias
+$text
+end note
+!endprocedure
+
+!unquoted procedure BPMN_LEGEND()
+legend right
+|= Element |= Meaning |
+| Start / End event | Entry or completion point |
+| Task | Unit of work |
+| Gateway | Decision or synchronization |
+| Pool / Lane | Responsibility zone for a role or system |
+| Message flow | Cross-role dotted communication |
+endlegend
+!endprocedure
