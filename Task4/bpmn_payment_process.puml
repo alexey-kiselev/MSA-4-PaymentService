@@ -1,0 +1,42 @@
+@startuml bpmn_payment_process
+
+!include ./BPMN.puml
+
+left to right direction
+skinparam nodesep 70
+skinparam ranksep 50
+
+BPMN_TITLE("Обработка платежа")
+
+StartEvent(begin, "Старт")
+ServiceTask(hold, "Заблокировать средства")
+ServiceTask(fraud, "Антифрод")
+ExclusiveGateway(gw, "Результат?")
+UserTask(manual, "Ручная проверка")
+ServiceTask(transfer, "Перевести")
+ServiceTask(notify_ok, "Уведомить")
+EndEvent(end_ok, "Выполнен")
+
+ServiceTask(compensate, "Вернуть средства")
+ServiceTask(notify_cancel, "Уведомить")
+EndEvent(end_cancel, "Отменён")
+
+Flow(begin, hold)
+Flow(hold, fraud)
+Flow(fraud, gw)
+Flow(gw, transfer, "разрешение или cut-off")
+Flow(transfer, notify_ok)
+Flow(notify_ok, end_ok)
+
+Flow(gw, manual, "ручная проверка")
+Flow(manual, transfer, "разрешение или 20 мин")
+
+Flow(hold, compensate, "ошибка")
+Flow(gw, compensate, "запрет")
+Flow(manual, compensate, "запрет")
+Flow(transfer, compensate, "ошибка")
+
+Flow(compensate, notify_cancel)
+Flow(notify_cancel, end_cancel)
+
+@enduml
